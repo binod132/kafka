@@ -11,7 +11,7 @@ logger = logging.getLogger('consumer')
 # Kafka consumer setup
 kafka_broker = os.getenv('KAFKA_BROKER', 'localhost:9092')
 logger.info(f"Connecting to Kafka broker at {kafka_broker}")
-consumer = KafkaConsumer('my-topic', bootstrap_servers=['kafka.kafka.svc.cluster.local:9092'])
+consumer = KafkaConsumer('my-topic', group_id='my-consumer-group', bootstrap_servers=['kafka.kafka.svc.cluster.local:9092'])
 
 def consume_message():
     for message in consumer:
