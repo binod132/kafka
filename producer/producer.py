@@ -8,7 +8,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('producer')
 
 # Kafka producer setup
-producer = KafkaProducer(bootstrap_servers=['kafka-service:9092'])
+kafka_broker = os.getenv('KAFKA_BROKER', 'localhost:9092')
+producer = KafkaProducer(bootstrap_servers=['kafka_broker'])
 
 def produce_message():
     while True:
