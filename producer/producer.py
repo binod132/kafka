@@ -11,7 +11,7 @@ logger = logging.getLogger('producer')
 # Kafka producer setup
 kafka_broker = os.getenv('KAFKA_BROKER', 'localhost:9092')
 logger.info(f"Connecting to Kafka broker at {kafka_broker}")
-producer = KafkaProducer(bootstrap_servers=['kafka_broker'])
+producer = KafkaProducer(bootstrap_servers=['kafka.kafka.svc.cluster.local:9092'])
 
 def produce_message():
     while True:
