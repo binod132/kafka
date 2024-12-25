@@ -21,6 +21,8 @@ spec:
           value: "kafka.kafka.svc.cluster.local:9092"
         - name: TOPIC_NAME
           value: "test-topic"
+        - name: LOG_LEVEL  # Set environment variable for logging level
+          value: "INFO"
 ---
 apiVersion: v1
 kind: Service

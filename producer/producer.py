@@ -1,27 +1,24 @@
-from kafka import KafkaProducer
-import json
+import logging
 import time
-import os
+import random
+from kafka import KafkaProducer
 
-# Environment variables for Kafka broker and topic
-KAFKA_BROKER = os.getenv('KAFKA_BROKER', 'localhost:9092')
-TOPIC_NAME = os.getenv('TOPIC_NAME', 'test-topic')
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('producer')
 
-def produce_messages():
-    producer = KafkaProducer(
-        bootstrap_servers=KAFKA_BROKER,
-        value_serializer=lambda v: json.dumps(v).encode('utf-8')
-    )
-    print(f"Producer connected to Kafka broker: {KAFKA_BROKER}")
-    print(f"Sending messages to topic: {TOPIC_NAME}")
+# Kafka producer setup
+producer = KafkaProducer(bootstrap_servers=['kafka-service:9092'])
 
-    counter = 1
+def produce_message():
     while True:
-        message = {'id': counter, 'message': f'Hello Kafka {counter}'}
-        producer.send(TOPIC_NAME, value=message)
-        print(f"Sent: {message}")
-        counter += 1
-        time.sleep(5)  # Wait 5 seconds between messages
+        message = f"Message {random.randint(1, 100)}"
+        logger.info(f"Producing message: {message}")
+        producer.send('my-topic', value=message.encode('utf-8'))
+        producer.flush()  # Ensure the message is sent
+        logger.info(f"Message produced: {message}")
+        time.sleep(5)  # Produce a message every 5 seconds
 
 if __name__ == "__main__":
-    produce_messages()
+    logger.info("Producer started")
+    produce_message()
