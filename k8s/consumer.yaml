@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
+    spec:
+      containers:
+      - name: kafka-consumer
+        image: binod1243/kafka:consumer
+        env:
+        - name: KAFKA_BROKER
+          value: "kafka.kafka.svc.cluster.local:9092"
+        - name: TOPIC_NAME
+          value: "test-topic"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-consumer-service
+spec:
+  selector:
+    app: kafka-consumer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
