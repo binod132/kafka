@@ -26,12 +26,12 @@ jobs:
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
       with:
-        context: ./producer
+        context: ./producer/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/kafka:producer
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
       with:
-        context: ./consumer
+        context: ./consumer/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/kafka:consumer
