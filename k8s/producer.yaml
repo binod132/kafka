@@ -15,6 +15,7 @@ spec:
       containers:
       - name: kafka-producer
         image: binod1243/kafka:producer
+        imagePullPolicy: Always
         env:
         - name: KAFKA_BROKER
           value: "kafka.kafka.svc.cluster.local:9092"
