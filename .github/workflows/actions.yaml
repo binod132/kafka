@@ -13,6 +13,13 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
+    - name: Print Current Directory
+      run: pwd
+
+    - name: List Contents of Current Directory
+      run: ls -la
+    - name: List Contents of Producer Directory
+      run: ls -la ./producer
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
@@ -26,12 +33,12 @@ jobs:
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
       with:
-        context: ./producer/Dockerfile
+        context: ./producer
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/kafka:producer
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
       with:
-        context: ./consumer/Dockerfile
+        context: ./consumer
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/kafka:consumer
